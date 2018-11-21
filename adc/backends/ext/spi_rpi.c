@@ -7,8 +7,11 @@
 #include <fcntl.h>
 #include <sys/ioctl.h>
 #include <sys/time.h>
-#include <linux/spi/spidev.h>
 #include <sys/mman.h>
+
+#ifdef __linux__
+#include <linux/spi/spidev.h>
+#endif
 
 #include <Python.h>
 
@@ -43,6 +46,8 @@ int gpio_read(const uint32_t *gpio_mmap, int pin_no) {
     long reading = *(gpio_mmap + block_addr) & mask;
     return (int) (reading != 0);
 }
+
+#ifdef __linux__
 
 int spi_open(uint8_t ch, unsigned int baud) {
     char mode = SPI_MODE_0;
@@ -88,6 +93,18 @@ int spi_xfer(int fd, unsigned int baud, char *txbuf, char *rxbuf, unsigned int l
 
     return ioctl(fd, SPI_IOC_MESSAGE(1), &spi);
 }
+
+#else
+
+int spi_open(uint8_t ch, unsigned int baud) {
+    return -1;
+}
+
+int spi_xfer(int fd, unsigned int baud, char *txbuf, char *rxbuf, unsigned int length) {
+    return -1;
+}
+
+#endif  // __linux__
 
 int raw_get_data(uint8_t spi_ch, uint32_t spi_baud, uint8_t dr_pin, uint8_t addr, uint8_t byte_width,
                  uint32_t sample_len, uint32_t *samples) {
