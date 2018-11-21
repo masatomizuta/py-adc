@@ -5,15 +5,13 @@ import time
 
 import pigpio
 
-import adc
 import adc.mcp3911_register as reg
+from adc import MCP3911, SPI_pigpio
 
 pi = pigpio.pi()
-spi = pi.spi_open(0, 250000)
+ADC_DR_PIN = 13
 
-ad = adc.MCP3911(adc.SPI_pigpio(pi, spi))
-
-print(ad.read_reg_status_com().to_string())
+ad = MCP3911(SPI_pigpio(pi, 0, 1000000, ADC_DR_PIN))
 
 ad.write_reg_gain(reg.GainReg(
     boost=reg.GainReg.Boost.x2
@@ -24,13 +22,15 @@ ad.write_reg_status_com(reg.StatusComReg(
     width=reg.StatusComReg.Width.both_ch_16bit
 ))
 
-print(ad.read_reg_status_com().to_string())
-
 ad.write_reg_config(reg.ConfigReg(
     pre=reg.ConfigReg.Pre.pre1,
-    osr=reg.ConfigReg.Osr.osr512,
+    osr=reg.ConfigReg.Osr.osr128,
     clkext=reg.ConfigReg.ClkExt.crystal
 ))
+
+print(ad.read_reg_gain().to_string())
+print(ad.read_reg_status_com().to_string())
+print(ad.read_reg_config().to_string())
 
 time.sleep(0.1)
 
@@ -44,7 +44,7 @@ maximum = max(array)
 st_dev = statistics.stdev(array)
 st_dev_pct = st_dev / avg * 100
 
-print(array[0:20])
+print(array[:10])
 print(f'average: {avg}')
 print(f'min: {minimum}')
 print(f'max: {maximum}')

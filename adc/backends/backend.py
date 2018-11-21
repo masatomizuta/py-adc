@@ -10,8 +10,12 @@ class Backend(object, metaclass=ABCMeta):
 
     @abstractmethod
     def transfer(self, data: bytes) -> bytes:
-        raise NotImplementedError()
+        pass
+
+    @abstractmethod
+    def get_data(self, addr: int, byte_width: int, sample_len: int) -> [int]:
+        pass
 
     @abstractmethod
     def close(self):
-        raise NotImplementedError()
+        pass

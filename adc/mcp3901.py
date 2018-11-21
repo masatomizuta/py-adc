@@ -12,25 +12,24 @@ class MCP3901(SPIADC):
         assert width in [16, 24], 'width must be 16 or 24'
 
         addr = Address.CHANNEL0 if ch == 0 else Address.CHANNEL1
-        n = length * (2 if width == 16 else 3)
+        byte_width = length * (2 if width == 16 else 3)
 
-        data = self.read_reg(addr, n)
+        data = self.backend.get_data(addr, byte_width, length)
 
-        array = []
         if width == 16:
             for i in range(length):
-                x = data[i * 2] << 8 | data[i * 2 + 1]
+                x = data[i]
                 if x > 32768:
                     x -= 65536
-                array.append(x)
+                data[i] = x
         else:
             for i in range(length):
-                x = data[i * 3] << 16 | data[i * 3 + 1] << 8 | data[i * 3 + 2]
+                x = data[i]
                 if x > 8388608:
                     x -= 16777216
-                array.append(x)
+                data[i] = x
 
-        return array
+        return data
 
     def read_data(self, ch=0, width=24) -> int:
         return self.read_data_array(1, ch, width)[0]
