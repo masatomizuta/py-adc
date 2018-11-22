@@ -85,7 +85,7 @@ class StatusComReg(Register):
     class DR_Lty(IntEnum):
         """Data Ready Latency Control bit"""
         off = 1
-        """“No Latency” Conversion, DR pulses after 3 DRCLK periods (default)"""
+        """No Latency Conversion, DR pulses after 3 DRCLK periods (default)"""
         on = 0
         """Unsettled Data is available after every DRCLK period"""
 
@@ -223,9 +223,9 @@ class Config2Reg(Register):
     class ClkExt(IntEnum):
         """Clock Mode bit"""
         external = 1
-        """External Clock mode (internal oscillator disabled and bypassed – lower power)"""
+        """External Clock mode (internal oscillator disabled and bypassed - lower power)"""
         crystal = 0
-        """XT mode – A crystal must be placed between OSC1/OSC2 (default)"""
+        """XT mode - A crystal must be placed between OSC1/OSC2 (default)"""
 
     def __init__(self, reset=Reset.neither, shutdown=Shutdown.neither, dither=Dither.both, vrefext=VrefExt.internal,
                  clkext=ClkExt.crystal):
