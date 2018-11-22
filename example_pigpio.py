@@ -45,12 +45,12 @@ st_dev = statistics.stdev(array)
 st_dev_pct = st_dev / avg * 100
 
 print(array[:10])
-print(f'average: {avg}')
-print(f'min: {minimum}')
-print(f'max: {maximum}')
-print(f'standard dev: {st_dev}')
-print(f'standard dev%: {st_dev_pct}')
-print(f'elapsed: {elapsed_time} sec')
+print("average: {}".format(avg))
+print("min: {}".format(minimum))
+print("max: {}".format(maximum))
+print("standard dev: {}".format(st_dev))
+print("standard dev%: {}".format(st_dev_pct))
+print("elapsed: {} sec".format(elapsed_time))
 
 ad.close()
 pi.stop()

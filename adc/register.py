@@ -10,7 +10,7 @@ class Register(ctypes.BigEndianStructure):
         s = ""
         for field in self._fields_:
             if field[0][0] != "_":
-                s += f'{field[0]}: {getattr(self, field[0]):b}\n'
+                s += "{}: {:b}\n".format(field[0], getattr(self, field[0]))
         return s
 
     @classmethod

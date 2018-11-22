@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 try:
-    import adc.backends.ext.spi_rpi as spi_rpi
+    from .ext import spi_rpi
 except ImportError:
     pass
 
