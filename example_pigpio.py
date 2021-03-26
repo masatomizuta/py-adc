@@ -9,9 +9,11 @@ import adc.mcp3911_register as reg
 from adc import MCP3911, SPI_pigpio
 
 pi = pigpio.pi()
+SPI_CH = 0
+SPI_BAUD = 1000000
 ADC_DR_PIN = 13
 
-ad = MCP3911(SPI_pigpio(pi, 0, 1000000, ADC_DR_PIN))
+ad = MCP3911(SPI_pigpio(pi, SPI_CH, SPI_BAUD, ADC_DR_PIN))
 
 ad.write_reg_gain(reg.GainReg(
     boost=reg.GainReg.Boost.x2

@@ -7,20 +7,30 @@ py-adc is a Python library to interface with ADC devices.
 - MCP3901
 - MCP3911
 
-## Testing
+## Install
 
-Build extension module first.
+```shell
+pip3 install git+https://github.com/masatomizuta/py-adc
+```
 
-```bash
+## Development
+
+Build the extension module first.
+
+```shell
 python3 setup.py build_ext -i
-python3 example_pigpio.py
 ```
 
 ## Note
 
-When SPI does not work, try to reload spi_bcm2835 kernel module.
+- Enable SPI on a Raspberry Pi board:
 
-```bash
-sudo rmmod spi_bcm2835
-sudo modprobe spi_bcm2835
+```shell
+sudo raspi-config nonint do_spi 0
+```
+
+- Start pigpiod:
+
+```shell
+sudo systemctl start pigpiod
 ```
